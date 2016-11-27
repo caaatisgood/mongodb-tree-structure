@@ -48,6 +48,7 @@ Here's a light and simple way for me to carry out:
 1. Retrieve all nodes from MongoDB
 2. Use [Normalizr](https://github.com/paularmstrong/normalizr) to make the query result of all nodes into id(key)->document(value) object. So that we can retrieve each node with its object id.
 3. Use recursive function to trace through every nodes and build up the tree structure.
+
 <pre>
 import Node from './schema'
 import { normalize, Schema, arrayOf } from 'normalizr'
@@ -109,4 +110,5 @@ async function update() {
 
 ### Delete
 
-Should I add "ancestors" field? It would be way more easy to remove a subtree if you have ancestors field...
+Should I add "ancestors" field?
+It would be way more easy to remove a subtree if you have ancestors field...
