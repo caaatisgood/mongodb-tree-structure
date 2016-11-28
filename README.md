@@ -64,7 +64,7 @@ async function create() {
 ```
 
 ### Retrieve
-To retrieve all of the nodes is easy. But it might make less sense than retrieving the whole tree (or subtree) structure and make it like some kind of nested JSON object.
+To retrieve all of the nodes is easy. But it might make less sense than retrieving the whole tree (or subtree) structure and make it like some kind of nested JSON object. So let's do this!:metal:
 
 #### Retrieve the tree
 
@@ -193,3 +193,5 @@ async function remove() {
 
 }
 ```
+
+That's it! :octocat: 
