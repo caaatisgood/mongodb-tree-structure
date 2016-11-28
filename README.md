@@ -32,11 +32,27 @@ Save the id of parent node when adding a new node.
 <pre>
 import Node from './schema'
 
-const doc = new Node({
-  parent: <b><i>ParentNodeId</i></b>
-})
+async function create() {
 
-doc.save()
+  try {
+
+    const node = new Node({
+      parent: <b><i>ParentNodeId</i></b>,
+    })
+    
+    const doc = await node.save()
+
+    await Node.update({ _id: <b><i>ParentNodeId</i></b> }, {
+      $push: { children: doc._id }
+    }).exec()
+
+    return doc
+
+  } catch (e) {
+    // error handling
+  }
+
+}
 </pre>
 
 ### Retrieve
@@ -55,25 +71,30 @@ import { normalize, Schema, arrayOf } from 'normalizr'
 
 async function getTree() {
 
-  let nodes = await Node.find()
-  
-  const nodeSchema = new Schema('nodes', { idAttribute: '_id' })
-  
-  const normalized = normalize(nodes, arrayOf(nodeSchema))
-  
-  nodes = normalized.entities.nodes
-  
-  const ids = normalized.result
+  try {
 
-  // recursive function
-  const makeTree = id => {
-    return Object.assign({}, nodes[id], {
-      children: nodes[id].children.map(makeTree)
-    })
+    let nodes = await Node.find()
+
+    const nodeSchema = new Schema('nodes', { idAttribute: '_id' })
+
+    const normalized = normalize(nodes, arrayOf(nodeSchema))
+
+    nodes = normalized.entities.nodes
+
+    const ids = normalized.result
+
+    const makeTree = id => {
+      return Object.assign({}, nodes[id], {
+        children: nodes[id].children.map(makeTree)
+      })
+    }
+
+    return makeTree(<b><i>TopNodeId</i></b>)
+    
+  } catch (e) {
+    // err handling
   }
 
-  return makeTree(<b><i>TopNodeId</i></b>)
-  
 }
 
 // you can also add <b>"parent": node.[node[id].parent]</b>
@@ -89,22 +110,29 @@ import Node from './schema'
 
 async function update() {
 
-  const node = await Node.findOne({ _id: <b><i>NodeId</i></b> })
+  try {
+
+    const node = await Node.findOne({ _id: <b><i>NodeId</i></b> })
   
-  // remove node from parent's children field
-  Node.update({ _id: node.parent }, {
-    $pull: { children: node._id }
-  }).exec()
+    // remove node from parent's children field
+    Node.update({ _id: node.parent }, {
+      $pull: { children: node._id }
+    }).exec()
   
-  // add node to new parent node's children field
-  Node.update({ _id: <b><i>NewParentNodeId</i></b> }, {
-    $push: { children: node._id }
-  }).exec()
+    // add node to new parent node's children field
+    Node.update({ _id: <b><i>NewParentNodeId</i></b> }, {
+      $push: { children: node._id }
+    }).exec()
   
-  // change node's parent
-  Node.update({ _id: node._id }, {
-    parent: <b><i>NewParentNodeId</i></b>
-  }).exec()
+    // change node's parent
+    Node.update({ _id: node._id }, {
+      parent: <b><i>NewParentNodeId</i></b>
+    }).exec()
+    
+  } catch (e) {
+    // err handling
+  }
+
 }
 </pre>
 
