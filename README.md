@@ -31,6 +31,7 @@ export default mongoose.model('Node', treeSchema)
 
 ## CRUD
 ### Create
+#### Creating a tree node
 1. Find parent node document to get the "ancestors" for our new node.
 2. Save the id of parent node and ancestor nodes when adding a new node.
 3. Add the id of the new node to the parent node's children field.
@@ -66,7 +67,7 @@ async function create() {
 ### Retrieve
 To retrieve all of the nodes is easy. But it might make less sense than retrieving the whole tree (or subtree) structure and make it like some kind of nested JSON object. So let's do this!:metal:
 
-#### Retrieve the tree
+#### Retrieving a tree
 
 Here's a light and simple way to carry out:
 
@@ -85,7 +86,7 @@ async function getTree() {
     // Get all nodes if you need to retrieve the whole tree
     let nodes = await Node.find()
     // or you only need the subtree of the node you specified
-    // let nodes = await Node.find({ $or: [{ _id: 'NODE_ID' }, { ancestors: 'NODE_ID'}] })
+    // let nodes = await Node.find({ $or: [{ _id: '<NODE_ID>' }, { ancestors: '<NODE_ID>'}] })
 
     // Define normalizr schema
     const nodeSchema = new Schema('nodes', { idAttribute: '_id' })
@@ -95,7 +96,7 @@ async function getTree() {
 
     // Normalized nodes. It's a JSON object with document id as
     // key and document as value. You can get a document directly
-    // by its id (e.g. nodes[<i>DocumentId</i>])
+    // by its id (e.g. nodes['<DOCUMENT_ID>'])
     nodes = normalized.entities.nodes
 
     // The result property of normalized data is an array that
@@ -111,7 +112,7 @@ async function getTree() {
       })
     }
 
-    return makeTree('NODE_ID')
+    return makeTree('<NODE_ID>')
     
   } catch (e) {
     // err handling
@@ -126,7 +127,7 @@ async function getTree() {
 ```
 
 ### Update
-#### Moving tree
+#### Moving a tree
 ```javascript
 import Node from './schema'
 
@@ -159,7 +160,7 @@ async function update() {
 ```
 
 ### Delete
-#### Remove a tree
+#### Removing a tree
 ```javascript
 import Node from './schema'
 
@@ -168,7 +169,7 @@ async function remove() {
   try {
 
     // Find the target node
-    const node = await Node.find({ _id: 'NODE_ID' })
+    const node = await Node.find({ _id: '<NODE_ID>' })
 
     // Remove node from its parent's children field
     Node.update({ _id: node.parent }, {
