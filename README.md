@@ -1,5 +1,5 @@
 # Implementing Tree Structure in MongoDB
-A way to implement tree structure with one Mongodb collection. Showing some basic ideas of schema design and CRUD concepts. Using [mongoose](http://mongoosejs.com/) and [Normalizr](https://github.com/paularmstrong/normalizr) in example code.
+A way to implement tree structure with one MongoDB collection. Showing some basic ideas of schema design and CRUD concepts. Using [mongoose](http://mongoosejs.com/) and [Normalizr](https://github.com/paularmstrong/normalizr) in example code.
 
 ## Schema
 Each document represents a tree node. It has "parent", "children" and "ancestors" field to save document id (provided by MongoDB) respectively as node reference.
