@@ -1,6 +1,6 @@
 # Implementing Tree Structure in MongoDB
 
-> A way to implement tree structure with one MongoDB collection. Showing some basic ideas of schema design and CRUD concepts. Using [mongoose](http://mongoosejs.com/) and [Normalizr](https://github.com/paularmstrong/normalizr) in example code.
+> A way to implement tree structure with one MongoDB collection. Showing some basic ideas of schema design and CRUD concepts. Using [mongoose](http://mongoosejs.com/) and [normalizr](https://github.com/paularmstrong/normalizr) in example code.
 
 ## [Warning]
 This is just **a way** to implement tree structure from my little experience.
@@ -77,7 +77,7 @@ To retrieve all of the nodes is easy. But it might make less sense than retrievi
 Here's a light and simple way to carry out:
 
 1. Retrieve nodes from MongoDB
-2. Use [Normalizr](https://github.com/paularmstrong/normalizr) to make the query result of all nodes into id(key)->document(value) object. So that we can retrieve each node with its object id.
+2. Use [normalizr](https://github.com/paularmstrong/normalizr) to make the query result of all nodes into id(key)->document(value) object. So that we can retrieve each node with its object id.
 3. Use recursive function to trace through every nodes and build up the tree structure.
 
 ```javascript
